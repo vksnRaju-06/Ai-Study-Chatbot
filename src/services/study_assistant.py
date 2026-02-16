@@ -225,6 +225,10 @@ Please ensure:
                 'metadata': {'error': 'no_previous_question'}
             }
         
+        # Check if max hints reached - after 5 hints, provide the answer
+        if self.session_context['hint_count'] >= 5:
+            logger.info(f"Max hints (5) reached, providing complete answer")
+        
         # Update context to request hint
         self.session_context['request_hint'] = True
         

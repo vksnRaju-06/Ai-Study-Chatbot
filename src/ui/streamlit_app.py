@@ -155,6 +155,8 @@ def display_sidebar():
         3️⃣ Try to think before asking for hints
         
         4️⃣ Don't look for direct answers - focus on understanding!
+        
+        💡 **Hint System:** You can request up to 5 progressive hints. After the 5th hint, you'll receive the complete answer with full explanation.
         """)
         
         st.markdown("---")
@@ -195,9 +197,16 @@ def display_chat_message(message):
             
             # Display hint count if applicable
             if metadata.get('hint_count', 0) > 0:
-                st.markdown(
-                    f'<span class="hint-count">💡 Hint {metadata["hint_count"]}/3</span>',
-                    unsafe_allow_html=True
+                hint_count = metadata['hint_count']
+                if hint_count > 5:
+                    st.markdown(
+                        f'<span class="hint-count">✅ Complete Answer (after 5 hints)</span>',
+                        unsafe_allow_html=True
+                    )
+                else:
+                    st.markdown(
+                        f'<span class="hint-count">💡 Hint {hint_count}/5</span>',
+                        unsafe_allow_html=True
                 )
 
 
