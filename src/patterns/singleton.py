@@ -32,7 +32,7 @@ class ConfigManager:
             'ollama': {
                 'host': os.getenv('OLLAMA_HOST', 'http://localhost:11434'),
                 'model': os.getenv('OLLAMA_MODEL', 'phi3:mini'),
-                'timeout': 60,
+                'timeout': int(os.getenv('OLLAMA_TIMEOUT', '120')),
             },
             'app': {
                 'log_level': os.getenv('LOG_LEVEL', 'INFO'),
