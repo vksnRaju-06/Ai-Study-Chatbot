@@ -52,7 +52,7 @@ class ConfigManager:
                 'max_history': 50,
             },
             'learning': {
-                'max_hints': 3,
+                'max_hints': 5,
                 'enable_progress_tracking': True,
                 'socratic_question_limit': 5,
             }

@@ -52,14 +52,33 @@ class HintBasedStrategy(LearningStrategy):
     """
     
     def generate_response(self, question: str, context: Dict[str, Any]) -> str:
-        """Generate hints without giving away the answer"""
+        """Generate hints without giving away the answer, or provide answer after 5 hints"""
         hint_level = context.get('hint_count', 0) + 1
+        
+        # After 5 hints, provide the complete answer
+        if hint_level > 5:
+            prompt = f"""You are a helpful tutor. A student has asked for help multiple times on: "{question}"
+
+They have already received 5 hints. Now provide:
+1. The COMPLETE and CLEAR answer to their question
+2. Step-by-step explanation of the solution
+3. Why this is the correct approach
+4. Key concepts they should remember
+
+Be thorough and educational in your explanation.
+
+Your complete answer:"""
+            return prompt
+        
+        # Hints 1-5: Progressive hints
+        hint_descriptions = ['gentle', 'moderate', 'stronger', 'very direct', 'almost complete']
+        hint_desc = hint_descriptions[min(hint_level-1, 4)]
         
         prompt = f"""You are a helpful tutor providing hints. A student asked: "{question}"
 
-This is hint level {hint_level} of 3. Provide a {['gentle', 'moderate', 'stronger'][min(hint_level-1, 2)]} hint that:
+This is hint level {hint_level} of 5. Provide a {hint_desc} hint that:
 1. Points the student in the right direction
-2. Does NOT give the complete answer
+2. {'Does NOT give the complete answer' if hint_level < 5 else 'Provides nearly all the information needed'}
 3. Encourages them to think about specific aspects
 4. Builds on previous hints if this isn't the first hint
 
